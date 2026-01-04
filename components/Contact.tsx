@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -9,13 +10,40 @@ export default function Contact() {
     phone: "",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log("Form submitted:", formData);
-    alert("Thank you for your inquiry! We will get back to you soon.");
-    setFormData({ name: "", email: "", phone: "", message: "" });
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to send message");
+      }
+
+      toast.success(
+        "Thank you for your inquiry! We will get back to you soon."
+      );
+      setFormData({ name: "", email: "", phone: "", message: "" });
+    } catch (error) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to send message. Please try again later."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -28,29 +56,29 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 bg-white">
+    <section id="contact" className="py-12 sm:py-16 lg:py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+        <div className="text-center mb-8 sm:mb-12 lg:mb-16">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4">
             Get In Touch
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto px-2">
             Ready to start your construction project? Contact us today for a
             free consultation
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12">
           {/* Contact Information */}
-          <div>
-            <h3 className="text-2xl font-semibold text-gray-900 mb-6">
+          <div className="order-2 lg:order-1">
+            <h3 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-4 sm:mb-6">
               Contact Information
             </h3>
-            <div className="space-y-6">
-              <div className="flex items-start space-x-4">
-                <div className="flex-shrink-0 w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
+            <div className="space-y-4 sm:space-y-6">
+              <div className="flex items-start space-x-3 sm:space-x-4">
+                <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-primary-100 rounded-lg flex items-center justify-center">
                   <svg
-                    className="w-6 h-6 text-primary-600"
+                    className="w-5 h-5 sm:w-6 sm:h-6 text-primary-600"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -64,15 +92,19 @@ export default function Contact() {
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-1">Phone</h4>
-                  <p className="text-gray-600">+91 9825192720</p>
+                  <h4 className="text-sm sm:text-base font-semibold text-gray-900 mb-1">
+                    Phone
+                  </h4>
+                  <p className="text-sm sm:text-base text-gray-600">
+                    +91 9825192720
+                  </p>
                 </div>
               </div>
 
-              <div className="flex items-start space-x-4">
-                <div className="flex-shrink-0 w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
+              <div className="flex items-start space-x-3 sm:space-x-4">
+                <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-primary-100 rounded-lg flex items-center justify-center">
                   <svg
-                    className="w-6 h-6 text-primary-600"
+                    className="w-5 h-5 sm:w-6 sm:h-6 text-primary-600"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -86,15 +118,19 @@ export default function Contact() {
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-1">Email</h4>
-                  <p className="text-gray-600">vapi@shivconstruction.info</p>
+                  <h4 className="text-sm sm:text-base font-semibold text-gray-900 mb-1">
+                    Email
+                  </h4>
+                  <p className="text-sm sm:text-base text-gray-600 break-all">
+                    vapi@shivconstruction.info
+                  </p>
                 </div>
               </div>
 
-              <div className="flex items-start space-x-4">
-                <div className="flex-shrink-0 w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
+              <div className="flex items-start space-x-3 sm:space-x-4">
+                <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-primary-100 rounded-lg flex items-center justify-center">
                   <svg
-                    className="w-6 h-6 text-primary-600"
+                    className="w-5 h-5 sm:w-6 sm:h-6 text-primary-600"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -114,8 +150,10 @@ export default function Contact() {
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-1">Address</h4>
-                  <p className="text-gray-600">
+                  <h4 className="text-sm sm:text-base font-semibold text-gray-900 mb-1">
+                    Address
+                  </h4>
+                  <p className="text-sm sm:text-base text-gray-600">
                     B-89, Lake City, Kotharwadi,
                     <br />
                     Killa Pardi. 396125
@@ -124,34 +162,34 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="mt-8 p-6 bg-gray-50 rounded-xl">
-              <h4 className="font-semibold text-gray-900 mb-3">
+            <div className="mt-6 sm:mt-8 p-4 sm:p-6 bg-gray-50 rounded-xl">
+              <h4 className="text-sm sm:text-base font-semibold text-gray-900 mb-3">
                 Business Hours
               </h4>
-              <div className="space-y-2 text-gray-600">
+              <div className="space-y-2 text-sm sm:text-base text-gray-600">
                 <div className="flex justify-between">
                   <span>Monday - Friday</span>
-                  <span>8:00 AM - 6:00 PM</span>
+                  <span className="text-right">8:00 AM - 6:00 PM</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Saturday</span>
-                  <span>9:00 AM - 4:00 PM</span>
+                  <span className="text-right">9:00 AM - 4:00 PM</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Sunday</span>
-                  <span>Closed</span>
+                  <span className="text-right">Closed</span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Contact Form */}
-          <div>
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="order-1 lg:order-2">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
               <div>
                 <label
                   htmlFor="name"
-                  className="block text-sm font-medium text-gray-700 mb-2"
+                  className="block text-sm sm:text-base font-medium text-gray-700 mb-2"
                 >
                   Full Name
                 </label>
@@ -162,15 +200,15 @@ export default function Contact() {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition"
-                  placeholder="John Doe"
+                  className="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition"
+                  placeholder="Your Name"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium text-gray-700 mb-2"
+                  className="block text-sm sm:text-base font-medium text-gray-700 mb-2"
                 >
                   Email Address
                 </label>
@@ -181,15 +219,15 @@ export default function Contact() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition"
-                  placeholder="john@example.com"
+                  className="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition"
+                  placeholder="Your Email"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="phone"
-                  className="block text-sm font-medium text-gray-700 mb-2"
+                  className="block text-sm sm:text-base font-medium text-gray-700 mb-2"
                 >
                   Phone Number
                 </label>
@@ -200,15 +238,15 @@ export default function Contact() {
                   value={formData.phone}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition"
-                  placeholder="+1 (555) 123-4567"
+                  className="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition"
+                  placeholder="Your Phone Number"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="message"
-                  className="block text-sm font-medium text-gray-700 mb-2"
+                  className="block text-sm sm:text-base font-medium text-gray-700 mb-2"
                 >
                   Message
                 </label>
@@ -219,16 +257,17 @@ export default function Contact() {
                   onChange={handleChange}
                   required
                   rows={5}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition resize-none"
-                  placeholder="Tell us about your project..."
+                  className="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition resize-none"
+                  placeholder="Tell us about your construction project requirements..."
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-primary-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary-700 transition-colors shadow-lg hover:shadow-xl transform hover:scale-105"
+                disabled={isSubmitting}
+                className="w-full bg-primary-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg hover:bg-primary-700 transition-colors shadow-lg hover:shadow-xl active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none touch-manipulation"
               >
-                Send Message
+                {isSubmitting ? "Sending..." : "Send Message"}
               </button>
             </form>
           </div>

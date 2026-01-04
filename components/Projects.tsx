@@ -33,36 +33,36 @@ export default function Projects() {
   ];
 
   return (
-    <section id="projects" className="py-20 bg-gray-50">
+    <section id="projects" className="py-12 sm:py-16 lg:py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+        <div className="text-center mb-8 sm:mb-12 lg:mb-16">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4 px-2">
             Our Projects
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto px-4">
             Showcasing our portfolio of successful construction projects
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {projects.map((project, index) => (
             <div
               key={index}
-              className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+              className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 active:scale-95 sm:transform sm:hover:-translate-y-2"
             >
-              <div className="h-64 bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center">
-                <div className="text-white text-center p-6">
-                  <div className="text-4xl mb-4">🏗️</div>
-                  <div className="text-sm font-semibold uppercase tracking-wider opacity-90">
+              <div className="h-48 sm:h-56 lg:h-64 bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center">
+                <div className="text-white text-center p-4 sm:p-6">
+                  <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">🏗️</div>
+                  <div className="text-xs sm:text-sm font-semibold uppercase tracking-wider opacity-90">
                     {project.category}
                   </div>
                 </div>
               </div>
-              <div className="p-6">
-                <h3 className="text-2xl font-semibold text-gray-900 mb-2">
+              <div className="p-4 sm:p-6">
+                <h3 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-2">
                   {project.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
                   {project.description}
                 </p>
               </div>
